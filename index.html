@@ -1,35 +1,68 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ro">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Program SportGuru</title>
-<meta name="theme-color" content="#4B0080">
+<title>Program SG Iași</title>
+
+<!-- Iconițe: ecranul telefonului + tab-ul browserului -->
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="manifest" href="manifest.json">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Program SG">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
-<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#5b0098">
+
 <style>
-  html,body{margin:0;height:100%;background:#4B0080}
-  iframe{position:fixed;inset:0;width:100%;height:100%;border:0;background:#F5F3F9;
-         padding-top:env(safe-area-inset-top);box-sizing:border-box}
-  .fallback{position:fixed;left:0;right:0;bottom:0;padding:10px 16px calc(10px + env(safe-area-inset-bottom));
-         text-align:center;font:14px system-ui,sans-serif;color:#fff;background:#4B0080}
-  .fallback a{color:#fff}
+  :root{--bg:#f4f5f7;--card:#fff;--ink:#15181d;--muted:#6b7280;--accent:#5b0098}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+       background:var(--bg);color:var(--ink);padding:16px}
+  .card{background:var(--card);border-radius:20px;padding:28px 22px;max-width:380px;width:100%;
+        text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+  img{width:88px;height:88px;border-radius:20px}
+  h1{font-size:20px;margin:14px 0 4px}
+  p{color:var(--muted);margin:0 0 20px;font-size:14px}
+  a.btn{display:block;background:var(--accent);color:#fff;text-decoration:none;font-weight:700;
+        font-size:17px;padding:15px;border-radius:14px}
+  .hint{margin-top:20px;font-size:13px;color:var(--muted);text-align:left;line-height:1.5;
+        border-top:1px solid #e5e7eb;padding-top:14px}
+  .hint b{color:var(--ink)}
 </style>
 </head>
 <body>
-<!-- Înlocuiește https://script.google.com/macros/s/AKfycbwKPGaL8yz8LyWAFVNhboyuYGKsbctNLVQfRYKBBBAR6WzPw0NJ3We82ewOD5OzTbZ7/exec cu linkul /exec al aplicației Program de lucru -->
-<iframe id="app" src="https://script.google.com/macros/s/AKfycbwKPGaL8yz8LyWAFVNhboyuYGKsbctNLVQfRYKBBBAR6WzPw0NJ3We82ewOD5OzTbZ7/exec" title="Program de lucru SportGuru Iași" allow="clipboard-write"></iframe>
-<div class="fallback" id="fb" hidden>Programul nu s-a încărcat. <a href="https://script.google.com/macros/s/AKfycbwKPGaL8yz8LyWAFVNhboyuYGKsbctNLVQfRYKBBBAR6WzPw0NJ3We82ewOD5OzTbZ7/exec" target="_top">Deschide-l direct</a></div>
+<div class="card">
+  <img src="apple-touch-icon.png" alt="">
+  <h1>Program SportGuru Iași</h1>
+  <p id="msg">Programul de lucru al echipei</p>
+  <a class="btn" id="go" href="#">Deschide programul</a>
+  <div class="hint" id="hint">
+    <b>Pune iconița pe telefon:</b><br>
+    iPhone (Safari): butonul <b>Partajează</b> → <b>Adaugă la ecranul principal</b><br>
+    Android (Chrome): meniul <b>⋮</b> → <b>Adaugă pe ecranul de pornire</b>
+  </div>
+</div>
+
 <script>
-  // dacă iframe-ul nu se încarcă în 12 secunde, arată linkul direct
-  var ok=false; document.getElementById('app').addEventListener('load',function(){ok=true;});
-  setTimeout(function(){ if(!ok) document.getElementById('fb').hidden=false; },12000);
+  // ▼▼▼ PUNE AICI LINKUL /exec DIN APPS SCRIPT ▼▼▼
+  var APLICATIE = 'https://script.google.com/macros/s/LIPESTE_AICI_ID-UL/exec';
+  // ▲▲▲
+
+  // păstrează ?nume=... din linkul primit de angajat
+  var tinta = APLICATIE + (location.search || '');
+  document.getElementById('go').href = tinta;
+
+  // deschis de pe iconița de pe ecran → intră direct în program
+  var dePeEcran = window.navigator.standalone === true ||
+                  (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
+  if (dePeEcran) {
+    document.getElementById('msg').textContent = 'Se deschide programul…';
+    document.getElementById('hint').style.display = 'none';
+    location.replace(tinta);
+  }
 </script>
 </body>
 </html>
