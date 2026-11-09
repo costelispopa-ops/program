@@ -48,12 +48,17 @@
 
 <script>
   // ▼▼▼ PUNE AICI LINKUL /exec DIN APPS SCRIPT ▼▼▼
-   var APLICATIE = 'https://script.google.com/macros/s/AKfycbwKPGaL8yz8LyWAFVNhboyuYGKsbctNLVQfRYKBBBAR6WzPw0NJ3We82ewOD5OzTbZ7/exec';
+  var APLICATIE = 'https://script.google.com/macros/s/AKfycbwKPGaL8yz8LyWAFVNhboyuYGKsbctNLVQfRYKBBBAR6WzPw0NJ3We82ewOD5OzTbZ7/exec';
   // ▲▲▲
 
   // păstrează ?nume=... din linkul primit de angajat
   var tinta = APLICATIE + (location.search || '');
   document.getElementById('go').href = tinta;
+
+  // necesar pentru „Instalează aplicația” în Chrome pe Android
+  if ('serviceWorker' in navigator) {
+    try { navigator.serviceWorker.register('sw.js'); } catch (e) {}
+  }
 
   // deschis de pe iconița de pe ecran → intră direct în program
   var dePeEcran = window.navigator.standalone === true ||
